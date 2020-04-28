@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+    redisgraph:
+        container_name: redisgraph
+        ports:
+            - '6378:6379'
+        volumes:
+            - '/tmp/redis:/data'
+        restart: unless-stopped
+        image: redislabs/redisgraph
+    
+    graphapi:
+        container_name: graphapi
+        build:
+            context: .
+        ports:
+            - '5003:8080'
+        volumes:
+            - './server:/usr/src/app'
