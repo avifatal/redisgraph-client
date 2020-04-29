@@ -43,7 +43,13 @@ export const NodeInformation = (props: { type: 'edge' | 'node', label: string })
         <Row gutter={[3,6]} > 
             <Col span={10}>Opacity</Col>
             <Col span={14}>
-                <InputNumber value={settingsItem.opacity} style={{width:'100%'}} min={0} max={1} step={0.1} onChange={x =>{setSettingsItem(({ ...settingsItem, opacity : x  }));}} />
+                <InputNumber defaultValue={settingsItem.opacity} style={{width:'100%'}} min={0.2} max={1} step={0.1} onChange={x =>{setSettingsItem(({ ...settingsItem, opacity : x  }));}} />
+            </Col>
+        </Row>
+        <Row gutter={[3,6]} > 
+            <Col span={10}>Size</Col>
+            <Col span={14}>
+                <InputNumber defaultValue={settingsItem.size} style={{width:'100%'}} min={10} max={80} step={0.1} onChange={x =>{setSettingsItem(({ ...settingsItem, size : x  }));}} />
             </Col>
         </Row>
     </>

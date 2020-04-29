@@ -24,9 +24,9 @@ export const useSettings = () => {
         var toReturn = settings?.edgeSettings[label] || settings?.nodeSettings[label];
         if(!toReturn){
             if(type == 'edge'){
-                toReturn = settings.edgeSettings[label] = {borderColor: randomColor(),fillColor: randomColor()}
+                toReturn = settings.edgeSettings[label] = {borderColor: randomColor(),fillColor: randomColor(), size: 30, opacity: 1}
             }else{
-                toReturn = settings.nodeSettings[label] = {borderColor: randomColor(),fillColor: randomColor()}
+                toReturn = settings.nodeSettings[label] = {borderColor: randomColor(),fillColor: randomColor(), size: 30, opacity: 1}
             }
         }
         write();

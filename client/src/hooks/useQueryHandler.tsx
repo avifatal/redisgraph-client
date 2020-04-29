@@ -5,15 +5,23 @@ import { useSettings } from "./useSettings";
 const server = 'http://localhost:5003';
 
 export const useQueryHandler = () => {
+    var settings = useSettings();
     const buildGraphData = (data) : GraphData => {
+       
         let graphData: GraphData = {edges:[],nodes:[]};
         const addedNodes: any[] = [];
         for(let i of data){
             for(let b of i._values){
                 if(b.destNode){
+                    
                     graphData.edges?.push({to: b.destNode, from: b.srcNode });
                 }else{
                     if(!addedNodes.includes(b.id)){
+                        var item = settings.getOrCreate('edge',b.label)
+                        b.color = {border: item.borderColor, background : item.fillColor };
+                        b.opacity = item.opacity;
+                        //b.size = item.size;
+                        console.log(item.opacity);
                         addedNodes.push(b.id);
                         graphData.nodes?.push(b);
                     }
