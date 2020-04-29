@@ -3,12 +3,13 @@ const express = require('express');
 // Constants
 const PORT = 8080;
 const HOST = '0.0.0.0';
-
+var cors = require('cors')
 // App
 const app = express();
+app.use(cors());
+app.use(express.json());      // if needed
+
 const RedisGraph = require("redisgraph.js").Graph;
-
-
 let graph = new RedisGraph("redisgraph", "redisgraph", 6379);
 
 const runQuery = async (graph, q) => {
@@ -17,14 +18,19 @@ const runQuery = async (graph, q) => {
     var query = i.trim();
 
     if (query && !query.startsWith("#") && !query.startsWith("//")) {
-      console.log("-------" + i.trim() + "-------");
       await graph.query(i.trim());
     }
   }
 }
 
-app.get('/run', function (req, res) {
+app.post('/run', async (req, res)  => {
   
+  let result = await graph.query(req.body.query);
+  let arr = [];
+  while (result.hasNext()) {
+    arr.push(result.next());
+  }
+  return res.json(arr);
 });
 
 app.get('/test', async (req, res) => {

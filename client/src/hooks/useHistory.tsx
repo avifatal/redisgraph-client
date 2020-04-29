@@ -1,3 +1,5 @@
+
+
 export const useHistory = () => {
     let all : [{date?: number, query?: string}] = [{}];
     const fetch = () => {

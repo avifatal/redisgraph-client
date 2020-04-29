@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@ant-design/icons": "^4.1.0"
+    "@ant-design/icons": "^4.1.0",
+    "react-color": "^2.18.0"
   }
 }

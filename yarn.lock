@@ -25,6 +25,11 @@
     insert-css "^2.0.0"
     rc-util "^4.9.0"
 
+"@icons/material@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
+  integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
+
 add-dom-event-listener@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/add-dom-event-listener/-/add-dom-event-listener-1.1.0.tgz#6a92db3a0dd0abc254e095c0f1dc14acbbaae310"
@@ -47,12 +52,22 @@ insert-css@^2.0.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
+lodash@^4.0.1, lodash@^4.17.11:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+
 loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
+
+material-colors@^1.2.1:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/material-colors/-/material-colors-1.2.6.tgz#6d1958871126992ceecc72f4bcc4d8f010865f46"
+  integrity sha512-6qE4B9deFBIa9YSpOc9O0Sgc43zTeVYbgDT5veRKSlB2+ZuHNoVVxA1L/ckMUayV9Ay9y7Z/SZCLcGteW9i7bg==
 
 object-assign@4.x, object-assign@^4.1.1:
   version "4.1.1"
@@ -79,6 +94,18 @@ rc-util@^4.9.0:
     react-lifecycles-compat "^3.0.4"
     shallowequal "^1.1.0"
 
+react-color@^2.18.0:
+  version "2.18.0"
+  resolved "https://registry.yarnpkg.com/react-color/-/react-color-2.18.0.tgz#34956f0bac394f6c3bc01692fd695644cc775ffd"
+  integrity sha512-FyVeU1kQiSokWc8NPz22azl1ezLpJdUyTbWL0LPUpcuuYDrZ/Y1veOk9rRK5B3pMlyDGvTk4f4KJhlkIQNRjEA==
+  dependencies:
+    "@icons/material" "^0.2.4"
+    lodash "^4.17.11"
+    material-colors "^1.2.1"
+    prop-types "^15.5.10"
+    reactcss "^1.2.0"
+    tinycolor2 "^1.4.1"
+
 react-is@^16.12.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -88,6 +115,13 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+reactcss@^1.2.0:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/reactcss/-/reactcss-1.2.3.tgz#c00013875e557b1cf0dfd9a368a1c3dab3b548dd"
+  integrity sha512-KiwVUcFu1RErkI97ywr8nvx8dNOpT03rbnma0SSalTYjkrPYaEajR4a/MRt6DZ46K6arDRbWMNHF+xH7G7n/8A==
+  dependencies:
+    lodash "^4.0.1"
 
 shallowequal@^1.1.0:
   version "1.1.0"

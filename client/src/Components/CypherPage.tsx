@@ -1,39 +1,51 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Card, Button, message, Tabs, Timeline, Switch, Menu } from "antd";
+import React, { useState, useEffect, createRef, useRef } from "react";
+import { Row, Col, Card, Button, message, Tabs, Timeline, Switch, Menu, Drawer } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import { ShareAltOutlined,ColumnHeightOutlined,MailOutlined,AppstoreOutlined,SettingOutlined } from '@ant-design/icons';
-import { useHistory } from "./useHistory";
 import axios from 'axios'
+import ReactJson from 'react-json-view'
+import { GraphData, Settings } from "../models";
+import { useQueryHandler } from "../hooks/useQueryHandler";
+import { NodeInformation } from "./NodeInformation";
+import { useHistory } from "../hooks/useHistory";
+import { useSettings } from "../hooks/useSettings";
+
+declare var vis:any;
 const { TabPane } = Tabs;
 
 const defaultHeight = 250;
 
-const useQueryHandler = () => {
-    const run = (query) => {
-        axios.post('/run',{query}).then(x => {
-           // x.data.data
-        });
-    }
-
-    return {run};
-}
     
-
 export const CypherPage = () => {
     const [running, setRunning] = useState(false);
     const [shrinable, setShrinable] = useState(false);
     const [height, setHeight] = useState(defaultHeight);
     const [query, setQuery] = useState('');
+    const [json, setJson] = useState<{}>({});
+    const [graphData, setGraphData] = useState<any>();
+    const [network, setNetwork] = useState<any>();
+    const [settingsVisible, setSettingsVisible] = useState(false);
+    const [chosenNode,setChosenNode] = useState<any>({});
     const history = useHistory(); 
+    const queryHandler = useQueryHandler();
+    const graphDiv = useRef<HTMLDivElement>();
+
+    
+    
+    
 
     const addToHistory = (query) => {
         history.add(query);
     }
 
     const run = () => {
-        console.log("dsds");
         setRunning(true);
         addToHistory(query);
+        queryHandler.run(query).then(x => {
+            setJson(x.jsonData);
+            setGraphData(x.graphData)
+            setRunning(false);
+        });
     }
 
     const unShrink = () => {
@@ -52,16 +64,49 @@ export const CypherPage = () => {
         }
     }
     useEffect(() => {
+        var options = {
+            physics: false,
+            nodes: {
+              shape: "dot",
+              size: 30,
+              font: {
+                size: 32
+              },
+              borderWidth: 2,
+              shadow: true
+            },
+            edges: {
+              width: 2,
+              shadow: true,
+              arrows: {
+                to: { enabled: true, scaleFactor: 1, type: "arrow" }
+              }
+            }
+          };
+        let network = new vis.Network(graphDiv.current, graphData , options);
+        network.on("click", function (params) {
+            var id = params.nodes[0];
+            if(id){
+                var node = graphData.nodes.find(x => x.id == id);
+                setChosenNode(node);
+                setSettingsVisible(true);
+            }
+        });
+    },[graphData]);
 
-    },[shrinable])
+    useEffect(() => {
+        if(query == ''){
+            setQuery(history.all[0].query!)
+        }
+    })
     
     return <>
     <Row justify="end">
         <Col span={2} style={{textAlign:'center'}}>
             <Switch unCheckedChildren={'shrink'} checkedChildren={'unshrink'}defaultChecked={shrinable} onChange={x => setShrinable(x)} />
         </Col>
-        <Col span={5}>
-            <Button style={{ width: '100%' }} icon={<ShareAltOutlined />} loading={running} type="primary">Run <small>(crtl+enter)</small></Button>
+        <Col span={3}>
+            <Button style={{ width: '100%' }} icon={<ShareAltOutlined />} onClick={run} loading={running} type="primary">Run <small> (crtl+enter)</small></Button>
         </Col>
     </Row>
         <Row gutter={[16, 16]}>
@@ -74,11 +119,25 @@ export const CypherPage = () => {
                 <Card>
                     <Tabs style={{minHeight:'800px'}} defaultActiveKey="1">
                         <TabPane tab="GRAPH RESULTS" key="1">
-                            Content of Tab Pane 1
+                            <div style={{width: '100%', height: '100vh'}} ref={graphDiv as any}>
+                           
+                            </div>
+                            {chosenNode.label && settingsVisible && <Drawer
+                                    title="Node information"
+                                    placement="right"
+                                    closable={true}
+                                    visible={settingsVisible}
+                                    onClose={x => setSettingsVisible(false)}
+                                    getContainer={false}
+                                    style={{ position: 'absolute' }}
+                                    width={600}
+                                    >
+                                        <NodeInformation type='node' label={chosenNode?.label} />
+                                    </Drawer>}
                          </TabPane>
                         <TabPane tab="JSON RESULTS" key="2">
-                            Content of Tab Pane 2
-                    </TabPane>
+                            <ReactJson src={json} />
+                        </TabPane>
                         <TabPane tab="QUERY HISTORY" key="3">
                         <Timeline mode={'left'}>
                             {history.all.map(item => {
