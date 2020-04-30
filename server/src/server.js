@@ -24,8 +24,13 @@ const runQuery = async (graph, q) => {
 }
 
 app.post('/run', async (req, res)  => {
-  
-  let result = await graph.query(req.body.query);
+  let result = [];
+  try{
+    result = await graph.query(req.body.query);
+  }catch(e){
+    console.error(e.message);
+    return res.status(400).json({message: e.message});//.statusCode(400);
+  }
   let arr = [];
   while (result.hasNext()) {
     arr.push(result.next());
@@ -89,7 +94,7 @@ app.get('/test', async (req, res) => {
     result = await graph.query("MATCH ()-[e]->() RETURN e");
     //result = await graph.query("MATCH (a:account)-[o:friend_of]->(b:account) RETURN a,b,o");
     //result = await graph.query("MATCH (h:human)-[o:owner_of]->(aa:account) RETURN h,o,aa");
-    //result = await graph.query("MATCH (h:human)-[o:owner_of]->(aa:account)-[f:friend_of]->(ab:account) RETURN h,ab");
+    //result = await graph.query("MATCH (h:human)-[o:owner_of]->(aa:account)-[f:friend_of]->(ab:account) RETURN h,ab,o");
   }
   catch (e) {
     console.log(e);

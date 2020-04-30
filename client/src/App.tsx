@@ -16,10 +16,6 @@ function App() {
         </Menu>
       </Header>
       <Content style={{ padding: '0 50px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>Cypher</Breadcrumb.Item>
-        </Breadcrumb>
         <div className="site-layout-content">
           <CypherPage />
         </div>

@@ -1,16 +1,22 @@
 
 
 export const useHistory = () => {
-    let all : [{date?: number, query?: string}] = [{}];
-    const fetch = () => {
+    const all = () : [{date?: number, query?: string}] => {
         var data = localStorage.getItem('queries');
-        all = JSON.parse(data || '[]')
+        return JSON.parse(data || '[]')
     }
     
     const add = (q) => {
-        all.unshift({date: Date.now(), query: q});
-        localStorage.setItem('queries', JSON.stringify(all));
+        let allItems = all();
+        if(allItems[0]?.query?.trim() !== q.trim()){
+            allItems.unshift({date: Date.now(), query: q});
+            localStorage.setItem('queries', JSON.stringify(allItems));
+        }
     }
-    fetch();
-    return {all, add}
+    const getLast = () => {
+        let allItems = all();
+        return allItems[0];
+    }
+
+    return {all, add, getLast}
 }

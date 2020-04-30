@@ -5,51 +5,55 @@ import { useSettings } from "../hooks/useSettings";
 import { SettingsItem } from "../models";
 
 
-export const NodeInformation = (props: { type: 'edge' | 'node', label: string }) => {
-
+export const NodeInformation = (props: { type: 'edge' | 'node', label: string, settingsItem: SettingsItem, onSettingsChange: () => void }) => {
+    console.log(props.settingsItem);
     const graphSetting = useSettings();
-    var found = graphSetting.getOrCreate(props.type, props.label);
-    const [settingsItem, setSettingsItem] = useState<SettingsItem>(found);
+    //var found = graphSetting.getOrCreate(props.type, props.label);
+
+    const [settingsItem, setSettingsItem] = useState<SettingsItem>(props.settingsItem);
 
     const change = () => {
+       
         if (props.type == 'edge') {
             graphSetting.setEdge(props.label, settingsItem, false)
         } else {
             graphSetting.setNode(props.label, settingsItem, false)
         }
+        props.onSettingsChange();
     };
-    
+    //useEffect(() => setSettingsItem(graphSetting.getOrCreate(props.type, props.label)), []);
     useEffect(() => change(), [settingsItem]);
-    
     return <>
+     <Row gutter={[3,6]} ></Row>
         <Row gutter={[3,6]} >
             <Col span={10}>Fill color</Col>
             <Col span={14}>
-                <ColorPicker color={settingsItem.fillColor!} setColor={x => setSettingsItem(({ ...settingsItem, fillColor:x  }))}></ColorPicker>
+                <ColorPicker color={settingsItem.fillColor!} setColor={x => setSettingsItem(b =>({ ...b, fillColor:x  }))}></ColorPicker>
             </Col>
         </Row>
          <Row gutter={[3,6]} > 
             <Col span={10}>Border color</Col>
             <Col span={14}>
-                <ColorPicker color={settingsItem.borderColor!} setColor={x => setSettingsItem(({ ...settingsItem, borderColor:x  }))}></ColorPicker>
+                <ColorPicker color={settingsItem.borderColor!} setColor={x => setSettingsItem(b => ({ ...b, borderColor:x  }))}></ColorPicker>
             </Col>
         </Row>
         <Row gutter={[3,6]} > 
             <Col span={10}>Shadow</Col>
             <Col span={14}>
-                <Switch checked={settingsItem.shadow}  onClick={x =>setSettingsItem(({ ...settingsItem, shadow:x  }))} />
+                <Switch checked={settingsItem.shadow}  onClick={x =>setSettingsItem(b =>({ ...b, shadow:x  }))} />
             </Col>
         </Row>
         <Row gutter={[3,6]} > 
             <Col span={10}>Opacity</Col>
             <Col span={14}>
-                <InputNumber defaultValue={settingsItem.opacity} style={{width:'100%'}} min={0.2} max={1} step={0.1} onChange={x =>{setSettingsItem(({ ...settingsItem, opacity : x  }));}} />
+                <InputNumber value={settingsItem.opacity} style={{width:'100%'}} min={0.2} max={1} step={0.1} onChange={x =>{setSettingsItem(b =>({ ...b, opacity : x  }));}} />
             </Col>
         </Row>
         <Row gutter={[3,6]} > 
             <Col span={10}>Size</Col>
             <Col span={14}>
-                <InputNumber defaultValue={settingsItem.size} style={{width:'100%'}} min={10} max={80} step={0.1} onChange={x =>{setSettingsItem(({ ...settingsItem, size : x  }));}} />
+                
+                <InputNumber value={settingsItem.size}  style={{width:'100%'}} min={10} max={80} step={0.1} onChange={x =>{setSettingsItem(b => ({ ...b, size : x  }));}} />
             </Col>
         </Row>
     </>
