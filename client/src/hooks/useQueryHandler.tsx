@@ -22,7 +22,9 @@ export const useQueryHandler = () => {
                     node.label = b.relation;
                     node.opacity = item.opacity;
                     node.color = {color: item.fillColor, opacity: item.opacity}
-                        graphData.edges?.push(node);
+                    node.itemType = b.label;
+                    node.label = b.relation + (item.displayProperty ? " - " +  b.properties[item.displayProperty] : '')
+                    graphData.edges?.push(node);
                 }else{
                     if(!addedNodes.includes(b.id)){
                         var edge: any = {};
@@ -33,7 +35,9 @@ export const useQueryHandler = () => {
                         edge.size = item.size;
                         edge.shadow = item.shadow;
                         edge.id = b.id;
-                        edge.label = b.label;
+                        debugger;
+                        edge.itemType = b.label;
+                        edge.label = b.label + (item.displayProperty ? " - " +  b.properties[item.displayProperty] : '')
                         addedNodes.push(edge.id);
                         graphData.nodes?.push(edge);
                     }

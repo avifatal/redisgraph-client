@@ -1,13 +1,14 @@
 version: '3.3'
 services:
-    redisgraph:
-        container_name: redisgraph
-        ports:
-            - '6378:6379'
-        volumes:
-            - '~/redis/data:/data'
-        restart: unless-stopped
-        image: redislabs/redisgraph
+    # redisgraph:
+    #     container_name: redisgraph-client
+    #     ports:
+    #         - '6377:6379'
+    #     volumes:
+    #         - '~/redisgraph/data:/data'
+    #     restart: unless-stopped
+    #     image: redislabs/redisgraph
+    #     command: ["redis-server", "--loadmodule", "/usr/lib/redis/modules/redisgraph.so", "--appendonly", "yes"]
     
     graphapi:
         container_name: graphapi

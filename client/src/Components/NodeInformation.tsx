@@ -5,8 +5,7 @@ import { useSettings } from "../hooks/useSettings";
 import { SettingsItem } from "../models";
 
 
-export const NodeInformation = (props: { type: 'edge' | 'node', label: string, settingsItem: SettingsItem, onSettingsChange: () => void }) => {
-    console.log(props.settingsItem);
+export const NodeInformation = (props: { type: 'edge' | 'node', itemType: string, label: string, settingsItem: SettingsItem, onSettingsChange: () => void }) => {
     const graphSetting = useSettings();
     //var found = graphSetting.getOrCreate(props.type, props.label);
 
@@ -15,9 +14,9 @@ export const NodeInformation = (props: { type: 'edge' | 'node', label: string, s
     const change = () => {
        
         if (props.type == 'edge') {
-            graphSetting.setEdge(props.label, settingsItem, false)
+            graphSetting.setEdge(props.itemType, settingsItem, false)
         } else {
-            graphSetting.setNode(props.label, settingsItem, false)
+            graphSetting.setNode(props.itemType, settingsItem, false)
         }
         props.onSettingsChange();
     };
@@ -54,6 +53,14 @@ export const NodeInformation = (props: { type: 'edge' | 'node', label: string, s
             <Col span={14}>
                 
                 <InputNumber value={settingsItem.size}  style={{width:'100%'}} min={10} max={80} step={0.1} onChange={x =>{setSettingsItem(b => ({ ...b, size : x  }));}} />
+            </Col>
+        </Row>
+
+        <Row gutter={[3,6]} > 
+            <Col span={10}>Display property</Col>
+            <Col span={14}>
+                
+                <Input defaultValue={settingsItem.displayProperty } id="displayProperty" style={{width:'100%'}} onBlur={x =>{console.log(x); setSettingsItem(b => ({ ...b, displayProperty : x.target.value  }));}} />
             </Col>
         </Row>
     </>

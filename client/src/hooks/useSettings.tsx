@@ -23,25 +23,24 @@ export const useSettings = () => {
         return color;
     }
 
-    const getOrCreate = (type: 'edge' | 'node', label: string): SettingsItem => {
+    const getOrCreate = (type: 'edge' | 'node', itemType: string): SettingsItem => {
         var settings = getSettings();
         var toReturn: SettingsItem = {};
         if (type == 'edge') {
-            toReturn = settings.edgeSettings[label];
+            toReturn = settings.edgeSettings[itemType];
             if (!toReturn) {
-                settings.edgeSettings[label] = { borderColor: randomColor(), fillColor: randomColor(), size: 30, opacity: 1 }
-                toReturn = settings.edgeSettings[label];
+                settings.edgeSettings[itemType] = { borderColor: randomColor(), fillColor: randomColor(), size: 30, opacity: 1, displayProperty: '', itemType: itemType }
+                toReturn = settings.edgeSettings[itemType];
                 write(settings);
             }
         } else {
-            toReturn = settings.nodeSettings[label]
+            toReturn = settings.nodeSettings[itemType]
             if (!toReturn) {
-                settings.nodeSettings[label] = { borderColor: randomColor(), fillColor: randomColor(), size: 30, opacity: 1 }
-                toReturn = settings.nodeSettings[label];
+                settings.nodeSettings[itemType] = { borderColor: randomColor(), fillColor: randomColor(), size: 30, opacity: 1, displayProperty: '' }
+                toReturn = settings.nodeSettings[itemType];
                 write(settings);
             }
         }
-        console.log("getOrCreate is writing")
         return toReturn;
     }
 

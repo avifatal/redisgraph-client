@@ -24,4 +24,5 @@ export interface SettingsItem{
     shadow?: boolean;
     size?: number;
     opacity?: number;
+    displayProperty?: string;
 }

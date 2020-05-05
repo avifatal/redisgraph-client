@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());      // if needed
 
 const RedisGraph = require("redisgraph.js").Graph;
-let graph = new RedisGraph("redisgraph", "redisgraph", 6379);
+let graph = new RedisGraph("redisgraph", "10.0.0.9", 6378);
 
 const runQuery = async (graph, q) => {
 

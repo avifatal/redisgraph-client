@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Row, Col, Card, Button, Tabs, Timeline, Switch, Menu, Drawer, Affix, message } from "antd";
+import { Row, Col, Card, Button, Tabs, Timeline, Switch, Menu, Drawer, Affix, message, notification } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import { ShareAltOutlined,RollbackOutlined, PullRequestOutlined, HistoryOutlined } from '@ant-design/icons';
 import ReactJson from 'react-json-view'
@@ -46,7 +46,7 @@ export const CypherPage = () => {
             setRunning(false);
             shrink();
         }).catch(x => {
-            message.error("Redisgraph error: " + x.response.data.message,80);
+            notification.open({message: "Redisgraph error: " + x.response.data.message,placement:'bottomRight',duration: 10});
             setRunning(false);
             unShrink();
         });
@@ -71,7 +71,9 @@ export const CypherPage = () => {
     }
     useEffect(() => {
         var options = {
-            physics: false,
+            physics:{ "barnesHut": {
+                "avoidOverlap": 1
+              }},
             nodes: {
               shape: "dot",
               size: 30,
@@ -156,18 +158,15 @@ export const CypherPage = () => {
                 </Card>
             </Col>
         </Row>
-        {editingItem.label && settingsVisible && <Drawer 
+        {editingItem.itemType && settingsVisible && <Drawer 
                                     title={  type.charAt(0).toUpperCase() + type.slice(1) + ' information - ' + editingItem?.label}
                                     placement="right"
                                     closable={true}
                                     visible={settingsVisible}
                                     onClose={x => setSettingsVisible(false)}
                                     width={600} >
-                                        <NodeInformation onSettingsChange={() => network.setData(queryHandler.rebuildData().graphData)} settingsItem={settings.getOrCreate(type, editingItem?.label)} type={type} label={editingItem?.label} />
+                                        <NodeInformation onSettingsChange={() => network.setData(queryHandler.rebuildData().graphData)} settingsItem={settings.getOrCreate(editingItem.itemType, editingItem?.label)} type={type} itemType={editingItem.itemType} label={editingItem?.label} />
                                 </Drawer>}
 
     </>
-
-
-
 }
